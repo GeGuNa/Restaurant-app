@@ -25,9 +25,31 @@ const db = knex({
   useNullAsDefault: true
 });
 */
+app.use((req, res, next) => {
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    next();
+});
 console.log(`zzzzzzz`);
 app.get("/q2", (req, res) => {
     res.write(`zz`);
+    res.end();
+});
+app.get("/q23/:id", (req, res) => {
+    res.set('Content-Type:text/html;');
+    res.write(`zz  ${req.params.id}`);
+    res.end();
+});
+app.get("/data/:id", (req, res) => {
+    const id = req.params.id;
+    const isInteger = /^[0-9]+$/.test(id);
+    if (!isInteger) {
+        return res.redirect("/");
+    }
+    console.log(isInteger);
+    res.json({ message: `You requested data for ID: ${id}` });
+});
+app.get("/q23", (req, res) => {
+    res.write(`zz  qq23`);
     res.end();
 });
 // Basic route
@@ -35,11 +57,14 @@ app.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // await db('users').insert({ name: 'Test User' }); // Creates table if it doesn’t exist
     //const users = await db('users').select('*');
     res.write(`<html>
-  <head></head>
+  <head>
+	<meta charset="UTF-8">
+
+  </head>
   <title></title>
   <body> 
   qqq
-  <h5>Hello user</h5>
+  <h5>Hello use</h5>
   <p>here's nothing for this time</p>
   
   </body>
