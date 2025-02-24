@@ -1,19 +1,10 @@
 import express, { Request, Response } from 'express';
-import knex from 'knex';
-
+import knex from './knex';
+import {isInteger} from './inc/functions';
 const app = express();
 const port = 3000;
 
-/*
-// Configure Knex with SQLite for this example
-const db = knex({
-  client: 'sqlite3',
-  connection: {
-    filename: './mydb.sqlite'
-  },
-  useNullAsDefault: true
-});
-*/
+
 
 app.use((req: Request, res: Response, next) => {
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
@@ -30,7 +21,21 @@ app.get("/q2", (req: Request, res: Response) => {
 	res.end()
 });
 
-app.get("/q23/:id", (req: Request, res: Response) => {
+app.get("/q23/:id", async (req: Request, res: Response) => {
+	
+	const q = req.params.id
+	if (!isInteger(q))return res.redirect("/")
+	var q2131zq = await knex('accs').where('userId',q).first()
+	
+	if (!q2131zq)return res.redirect("/")
+	
+	//var q21 =  knex('accs').where('userId',1).first()
+	
+	
+	
+	console.log(q2131zq)
+	
+	
 	
 	res.set('Content-Type:text/html;')
 	res.write(`zz  ${req.params.id}`)
@@ -40,11 +45,11 @@ app.get("/q23/:id", (req: Request, res: Response) => {
 app.get("/data/:id", (req: Request, res: Response) => {
     const id = req.params.id;
    
-     const isInteger = /^[0-9]+$/.test(id);
+     const isInteger2 = /^[0-9]+$/.test(id);
   
    
     
-    if (!isInteger) {
+    if (!isInteger2) {
         return res.redirect("/");  
     }
     
